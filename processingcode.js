@@ -1,32 +1,42 @@
-var osc, fft;
+var colors;
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
-
-  osc = new p5.TriOsc(); // set frequency and type
-  osc.amp(.5);
-
-  fft = new p5.FFT();
-  osc.start();
+  angledata = new Angles();
+  var gui = new dat.GUI();
+  for(var i=0;i<10;i++){
+ 	 gui.add(angledata, 'A'+i, 0, angmax);
+  }
 }
 
 function draw() {
   background(255);
-stroke(255,0,150);
-  var waveform = fft.waveform();  // analyze the waveform
-  beginShape();
-  strokeWeight(5);
-  for (var i = 0; i < waveform.length; i++){
-    var x = map(i, 0, waveform.length, 0, width);
-    var y = map(waveform[i], -1, 1, height, 0);
-    vertex(x, y);
+  translate(width/2,height/2);
+
+
+  for(var i=0;i<10;i++){
+  	rotate(radians(angledata["A"+i]));
+  	  strokeWeight(3);
+  stroke(0);
+  	line(0,0,0,100);
+  	fill(255,0,0);
+  	noStroke();
+  	text("A"+i,0,100);
+  	translate(0,100);
   }
-  endShape();
 
-  // change oscillator frequency based on mouseX
-  var freq = map(mouseX, 0, width, 40, 880);
-  osc.freq(freq);
 
-  var amp = map(mouseY, 0, height, 1, .01);
-  osc.amp(amp);
+}
+var angmax=360;
+function Angles() {
+  this.A0=Math.random()*angmax;
+  this.A1=Math.random()*angmax;
+  this.A2=Math.random()*angmax;
+  this.A3=Math.random()*angmax;
+  this.A4=Math.random()*angmax;
+  this.A5=Math.random()*angmax;
+  this.A6=Math.random()*angmax;
+  this.A7=Math.random()*angmax;
+  this.A8=Math.random()*angmax;
+  this.A9=Math.random()*angmax;
 }
